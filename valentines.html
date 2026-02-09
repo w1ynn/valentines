@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Otterly Important</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #ffe5ec; --panel: #ffc2d1; --text: #fb6f92; --border: #ff8fab; }
+        * { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        body { 
+            background-color: var(--bg); color: var(--text); 
+            font-family: 'Press Start 2P', cursive; margin: 0;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100vh; overflow: hidden;
+        }
+        .game-box {
+            background: white; border: 4px solid var(--border);
+            padding: 20px; text-align: center; width: 85%; max-width: 400px;
+            box-shadow: 8px 8px 0px var(--panel); position: relative;
+        }
+        .otter { font-size: 50px; margin-bottom: 20px; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        h1 { font-size: 11px; line-height: 1.8; margin-bottom: 20px; }
+        .input-wrap {
+            background: var(--bg); border: 3px solid var(--border);
+            padding: 15px; display: flex; align-items: center;
+        }
+        input {
+            background: transparent; border: none; color: var(--text);
+            font-family: inherit; font-size: 16px; width: 100%; outline: none;
+        }
+        #confirmBtn {
+            margin-top: 15px; background: var(--text); color: white;
+            border: none; padding: 12px; font-family: inherit; width: 100%;
+            display: none; cursor: pointer;
+        }
+        /* Mobile "Start" Overlay to unlock audio/focus */
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 100; display: flex;
+            align-items: center; justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="overlay" onclick="startApp()">
+    <div class="game-box">CLICK TO START</div>
+</div>
+
+<div id="main" class="game-box">
+    <div class="otter">🦦</div>
+    <h1>Will you be my Valentine?<br>(Type YES or NO)</h1>
+    <div class="input-wrap">
+        <span>></span>&nbsp;<input type="text" id="typer" placeholder="Type here..." autocomplete="off" spellcheck="false">
+    </div>
+    <button id="confirmBtn" onclick="finish()">CONFIRM</button>
+</div>
+
+<div id="victory" class="game-box" style="display:none;">
+    <div class="otter">🦦❤️🦦</div>
+    <h1>OTTERLY AMAZING!</h1>
+    <p style="font-size:8px;">Access Granted.</p>
+</div>
+
+<script>
+    const typer = document.getElementById('typer');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const target = "YES!!!";
+
+    function startApp() {
+        document.getElementById('overlay').style.display = 'none';
+        typer.focus();
+    }
+
+    typer.addEventListener('input', (e) => {
+        // Force the text to match our target word regardless of what's typed
+        let len = typer.value.length;
+        if (len > 0) {
+            typer.value = target.substring(0, len);
+        }
+        
+        if (typer.value.length >= 3) {
+            confirmBtn.style.display = 'block';
+        } else {
+            confirmBtn.style.display = 'none';
+        }
+    });
+
+    function finish() {
+        document.getElementById('main').style.display = 'none';
+        document.getElementById('victory').style.display = 'block';
+    }
+</script>
+</body>
+</html>
